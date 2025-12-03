@@ -2,10 +2,10 @@ import java.io.*;
 import java.util.*;
 
 public class GtfsConversion {
-    private BinarySearchTree<Stop> stops;
-    private BinarySearchTree<Route> routes;
+    private ArrayList<Stop> stops;
+    private BinarySearchTree<String, Route> routes;
     public GtfsConversion() {
-        this.stops = new BinarySearchTree<>();
+        this.stops = new ArrayList<>();
         this.routes = new BinarySearchTree<>();
     }
     public void saveStops() {
@@ -54,6 +54,7 @@ public class GtfsConversion {
                     // proper stop type check should be implemented later
                     if ((!id.contains(":rail:") && !name.contains("Replacement Bus Stop")) || file.getPath().equals("gtfs\\3 - Trams\\stops.txt") || file.getPath().equals("gtfs\\4 - Local buses\\stops.txt")) {
                         Stop stop = new Stop(name, id, lat, lon);
+                        stop.findSuburb();
                         outfile.append(stop.saveString() + "\n");
                     }
                 }
@@ -68,6 +69,21 @@ public class GtfsConversion {
 
         }
 
+    }
+    public void saveStopsNew() {
+        try {
+            FileWriter outfile = new FileWriter("stops.txt");
+            for (Stop stop : stops) {
+                if (stop.getSuburb() == null) {
+                    stop.findSuburb();
+                }
+                outfile.append(stop.saveString() + "\n");
+            }
+            outfile.close();
+        }
+        catch (Exception e) {
+
+        }
     }
     public void loadStops() {
         try {
@@ -84,7 +100,9 @@ public class GtfsConversion {
                 float lon = Float.parseFloat(lonTemp.substring(1, lonTemp.length() - 1));
                 String latTemp = stk.nextToken().trim();
                 float lat = Float.parseFloat(latTemp.substring(1, latTemp.length() - 1));
-                Stop stop = new Stop(name, id, lon, lat);
+                /*String suburbTemp = stk.nextToken().trim();
+                String suburb = suburbTemp.substring(1, suburbTemp.length() - 1); */
+                Stop stop = new Stop(name, id, lon, lat /*, suburb*/);
                 stops.add(stop);
             }
             infile.close();
@@ -127,7 +145,7 @@ public class GtfsConversion {
                     String longNameTemp = stk.nextToken().trim();
                     String longName = longNameTemp.substring(1, longNameTemp.length() - 1);
                     Route route = new Route(id, shortName, longName);
-                    routes.add(route);
+                    routes.add(route.getID(), route);
                     while (stk.hasMoreTokens()) {
                         stk.nextToken();
                     }
@@ -205,7 +223,7 @@ public class GtfsConversion {
     }
     public static void main(String[] args) {
         GtfsConversion convert = new GtfsConversion();
-        convert.saveRoutes();
-
+        convert.loadStops();
+        convert.saveStopsNew();
     }
 }
