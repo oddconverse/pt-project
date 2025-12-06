@@ -1,5 +1,6 @@
 package org.pt;
-
+// NOTE!!!! NEVER COMMIT/PUSH GTFS DATABASE TO MAIN
+// STOP FUCKING UP YOUR GIT
 public class Node<Key extends Comparable<Key>, Value> {
     private Key key;
     private Value data;

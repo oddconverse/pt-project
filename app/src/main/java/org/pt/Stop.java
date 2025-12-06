@@ -1,5 +1,6 @@
 package org.pt;
-
+// NOTE!!!! NEVER COMMIT/PUSH GTFS DATABASE TO MAIN
+// STOP FUCKING UP YOUR GIT
 import java.net.http.*;
 import java.io.*;
 import java.net.URI;

@@ -1,5 +1,6 @@
 package org.pt;
-
+// NOTE!!!! NEVER COMMIT/PUSH GTFS DATABASE TO MAIN
+// STOP FUCKING UP YOUR GIT
 public class BinarySearchTree<Key extends Comparable<Key>, Value> {
     private Node<Key, Value> master;
     public BinarySearchTree() {
