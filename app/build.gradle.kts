@@ -39,7 +39,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = "org.pt.JSONTester"
+    mainClass = "org.pt.Stop"
 }
 
 tasks.named<Test>("test") {

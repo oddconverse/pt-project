@@ -42,17 +42,17 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         return size;
 
     }
-    public void leftRotation() {
-
+    public Node leftRotation(Node node) {
+        return null;
     }
-    public void rightRotation() {
-
+    public Node rightRotation(Node node) {
+        return null;
     }
-    public void leftRightRotation() {
-
+    public Node leftRightRotation(Node node) {
+        return null;
     }
-    public void rightLeftRotation() {
-        
+    public Node rightLeftRotation(Node node) {
+        return null;
     }
     public String printAll() {
         return master.printAll();

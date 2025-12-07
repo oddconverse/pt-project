@@ -7,9 +7,11 @@ import java.util.*;
 public class GtfsConversion {
     private ArrayList<Stop> stops;
     private BinarySearchTree<String, Route> routes;
+    private BinarySearchTree<String, Trip> trips;
     public GtfsConversion() {
         this.stops = new ArrayList<>();
         this.routes = new BinarySearchTree<>();
+        this.trips = new BinarySearchTree<>();
     }
     public void saveStops() {
         // converts all stop data to my stop type
@@ -85,7 +87,7 @@ public class GtfsConversion {
             outfile.close();
         }
         catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
     public void loadStops() {
@@ -103,15 +105,18 @@ public class GtfsConversion {
                 float lon = Float.parseFloat(lonTemp.substring(1, lonTemp.length() - 1));
                 String latTemp = stk.nextToken().trim();
                 float lat = Float.parseFloat(latTemp.substring(1, latTemp.length() - 1));
-                /*String suburbTemp = stk.nextToken().trim();
-                String suburb = suburbTemp.substring(1, suburbTemp.length() - 1); */
-                Stop stop = new Stop(name, id, lon, lat /*, suburb*/);
+                String suburbTemp = stk.nextToken().trim();
+                String suburb = suburbTemp.substring(1, suburbTemp.length() - 1);
+                String postcodeTemp = stk.nextToken().trim();
+                String postcode = postcodeTemp.substring(1, postcodeTemp.length() - 1);
+                Stop stop = new Stop(name, id, lon, lat, suburb, postcode);
+                System.out.println(stop.saveString());
                 stops.add(stop);
             }
             infile.close();
         } 
         catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
     public void saveRoutes() {
@@ -184,7 +189,8 @@ public class GtfsConversion {
                     stk.nextToken();
                     String tripIDTemp = stk.nextToken().trim();
                     String tripID = tripIDTemp.substring(1, tripIDTemp.length() - 1);
-                    targetRoute.addTrip(tripID);
+                    Trip trip = new Trip(routeID, tripID);
+                    trips.add(tripID, trip);
                 }
                 tripInfile.close();
             }
@@ -205,7 +211,9 @@ public class GtfsConversion {
                     StringTokenizer stk = new StringTokenizer(line, ",");
                     String tripIDTemp = stk.nextToken().trim();
                     String tripID = tripIDTemp.substring(1, tripIDTemp.length() - 1);
-                    Route targetRoute;
+                    Route targetRoute = routes.search(trips.search(tripID).getRouteID());
+
+
                 }
                 stopTimeInfile.close();
             }

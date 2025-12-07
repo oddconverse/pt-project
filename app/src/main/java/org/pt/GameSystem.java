@@ -3,6 +3,7 @@ package org.pt;
 // STOP FUCKING UP YOUR GIT
 import java.util.*;
 import java.io.*;
+import org.pt.*;
 
 public class GameSystem {
     private ArrayList<Suburb> suburbs;
